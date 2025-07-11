@@ -20,46 +20,40 @@ runs:
     - name: Remove language/toolchain directories
       shell: bash
       run: |
-        if [[ "${{ inputs.verbose }}" == "true" ]]; then
-          echo "🧼 Removing Java..."
-          echo "🧼 Removing .NET SDKs and Runtimes..."
-          echo "🧼 Removing Swift..."
-          echo "🧼 Removing Haskell (.ghcup)..."
-          echo "🧼 Removing Julia..."
-          echo "🧼 Removing Android SDK..."
-          echo "🧼 Removing Azure CLI..."
-          echo "🧼 Removing PowerShell..."
-          echo "🧼 Removing hostedtoolcache..."
-        fi
-        sudo rm -rf /usr/lib/jvm \
-          /usr/share/dotnet \
-          /usr/share/swift \
-          /usr/local/.ghcup \
-          /usr/local/julia* \
-          /usr/local/lib/android \
-          /opt/az \
-          /usr/local/share/powershell \
-          /opt/hostedtoolcache
+        if [[ "${{ inputs.verbose }}" == "true" ]]; then echo "🧼 Removing Java..."; fi
+        sudo rm -rf /usr/lib/jvm
+        if [[ "${{ inputs.verbose }}" == "true" ]]; then echo "🧼 Removing .NET SDKs and Runtimes..."; fi
+        sudo rm -rf /usr/share/dotnet
+        if [[ "${{ inputs.verbose }}" == "true" ]]; then echo "🧼 Removing Swift..."; fi
+        sudo rm -rf /usr/share/swift
+        if [[ "${{ inputs.verbose }}" == "true" ]]; then echo "🧼 Removing Haskell (.ghcup)..."; fi
+        sudo rm -rf /usr/local/.ghcup
+        if [[ "${{ inputs.verbose }}" == "true" ]]; then echo "🧼 Removing Julia..."; fi
+        sudo rm -rf /usr/local/julia*
+        if [[ "${{ inputs.verbose }}" == "true" ]]; then echo "🧼 Removing Android SDK..."; fi
+        sudo rm -rf /usr/local/lib/android
+        if [[ "${{ inputs.verbose }}" == "true" ]]; then echo "🧼 Removing Azure CLI..."; fi
+        sudo rm -rf /opt/az
+        if [[ "${{ inputs.verbose }}" == "true" ]]; then echo "🧼 Removing PowerShell..."; fi
+        sudo rm -rf /usr/local/share/powershell
+        if [[ "${{ inputs.verbose }}" == "true" ]]; then echo "🧼 Removing hostedtoolcache..."; fi
+        sudo rm -rf /opt/hostedtoolcache
     - name: Conditionally remove browsers
       if: inputs.remove-browsers == 'true'
       shell: bash
       run: |
-        if [[ "${{ inputs.verbose }}" == "true" ]]; then
-          echo "🧼 Removing Chromium..."
-          echo "🧼 Removing Microsoft Edge/Chrome..."
-          echo "🧼 Removing Google Chrome..."
-          echo "🧼 Removing Firefox..."
-        fi
-        sudo rm -rf /usr/local/share/chromium \
-          /opt/microsoft \
-          /opt/google \
-          /usr/lib/firefox
+        if [[ "${{ inputs.verbose }}" == "true" ]]; then echo "🧼 Removing Chromium..."; fi
+        sudo rm -rf /usr/local/share/chromium
+        if [[ "${{ inputs.verbose }}" == "true" ]]; then echo "🧼 Removing Microsoft Edge/Chrome..."; fi
+        sudo rm -rf /opt/microsoft
+        if [[ "${{ inputs.verbose }}" == "true" ]]; then echo "🧼 Removing Google Chrome..."; fi
+        sudo rm -rf /opt/google
+        if [[ "${{ inputs.verbose }}" == "true" ]]; then echo "🧼 Removing Firefox..."; fi
+        sudo rm -rf /usr/lib/firefox
     - name: Prune Docker system
       shell: bash
       run: |
-        if [[ "${{ inputs.verbose }}" == "true" ]]; then
-          echo "🧼 Cleaning Docker unused state..."
-        fi
+        if [[ "${{ inputs.verbose }}" == "true" ]]; then echo "🧼 Cleaning Docker unused state..."; fi
         docker system prune -af || true
         docker builder prune -af || true
     - name: Disk space after cleanup
