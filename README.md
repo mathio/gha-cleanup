@@ -12,7 +12,7 @@ Aggressively reclaim disk space on GitHub-hosted runners by removing large, unne
 ## Example Usage
 
 ```yaml
-- uses: your-org/runner-cleanup-action@v1
+- uses: mathio/gha-cleanup@v1
   with:
     remove-browsers: true
     verbose: true
@@ -44,5 +44,5 @@ If `verbose: true`, the action will echo what is being removed before each step.
 This action is tagged as `v1.0.0`. Use it in your workflows as:
 
 ```yaml
-- uses: your-org/runner-cleanup-action@v1
+- uses: mathio/gha-cleanup@v1
 ```

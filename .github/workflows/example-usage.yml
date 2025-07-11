@@ -9,8 +9,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Run runner-cleanup-action
-        uses: your-org/runner-cleanup-action@v1
+      - name: Run mathio/gha-cleanup action
+        uses: mathio/gha-cleanup@v1
         with:
           remove-browsers: true
-          verbose: true 
+          verbose: true
