@@ -1,6 +1,8 @@
-# Runner Cleanup Action
+# 🚀🧹💾 Runner Cleanup Action
 
 Aggressively reclaim disk space on GitHub-hosted runners by removing large, unnecessary SDKs, caches, and optionally browser binaries. Useful for workflows that need extra space for builds or artifacts.
+
+Read more at DEV.to: [Squeezing Disk Space from GitHub Actions Runners: An Engineer's Guide](https://dev.to/mathio/squeezing-disk-space-from-github-actions-runners-an-engineers-guide-3pjg)
 
 ## Inputs
 
@@ -17,6 +19,24 @@ Aggressively reclaim disk space on GitHub-hosted runners by removing large, unne
     remove-browsers: true
     verbose: true
 ```
+
+## Results
+
+📊 Disk space **before** cleanup:
+
+```
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/root        72G   44G   28G  62% /
+```
+
+📊 Disk space **after** cleanup (with `remove-browsers: true`):
+
+```
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/root        72G   16G   57G  22% /
+```
+
+The action reclaims almost 30 GB of disk space.
 
 ## What gets removed?
 
@@ -36,6 +56,8 @@ Aggressively reclaim disk space on GitHub-hosted runners by removing large, unne
   - `/opt/google`
   - `/usr/lib/firefox`
 - Docker system and builder cache is always pruned.
+
+## Logging
 
 If `verbose: true`, the action will echo what is being removed before each step.
 
