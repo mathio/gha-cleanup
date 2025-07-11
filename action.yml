@@ -1,5 +1,11 @@
 name: "Runner Cleanup Action"
 description: "Aggressively reclaim disk space on GitHub-hosted runners."
+author: "Matej Lednicky"
+
+branding:
+  icon: "delete"
+  color: "orange"
+
 inputs:
   remove-browsers:
     description: "If true, also remove browser caches and binaries."
