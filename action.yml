@@ -1,0 +1,69 @@
+name: "Runner Cleanup Action"
+description: "Aggressively reclaim disk space on GitHub-hosted runners."
+inputs:
+  remove-browsers:
+    description: "If true, also remove browser caches and binaries."
+    required: false
+    default: "false"
+  verbose:
+    description: "If true, echo what is being removed."
+    required: false
+    default: "false"
+runs:
+  using: "composite"
+  steps:
+    - name: Disk space before cleanup
+      shell: bash
+      run: |
+        echo "📊 Disk space before cleanup:"
+        df -h
+    - name: Remove language/toolchain directories
+      shell: bash
+      run: |
+        if [[ "${{ inputs.verbose }}" == "true" ]]; then
+          echo "🧼 Removing Java..."
+          echo "🧼 Removing .NET SDKs and Runtimes..."
+          echo "🧼 Removing Swift..."
+          echo "🧼 Removing Haskell (.ghcup)..."
+          echo "🧼 Removing Julia..."
+          echo "🧼 Removing Android SDK..."
+          echo "🧼 Removing Azure CLI..."
+          echo "🧼 Removing PowerShell..."
+          echo "🧼 Removing hostedtoolcache..."
+        fi
+        sudo rm -rf /usr/lib/jvm \
+          /usr/share/dotnet \
+          /usr/share/swift \
+          /usr/local/.ghcup \
+          /usr/local/julia* \
+          /usr/local/lib/android \
+          /opt/az \
+          /usr/local/share/powershell \
+          /opt/hostedtoolcache
+    - name: Conditionally remove browsers
+      if: inputs.remove-browsers == 'true'
+      shell: bash
+      run: |
+        if [[ "${{ inputs.verbose }}" == "true" ]]; then
+          echo "🧼 Removing Chromium..."
+          echo "🧼 Removing Microsoft Edge/Chrome..."
+          echo "🧼 Removing Google Chrome..."
+          echo "🧼 Removing Firefox..."
+        fi
+        sudo rm -rf /usr/local/share/chromium \
+          /opt/microsoft \
+          /opt/google \
+          /usr/lib/firefox
+    - name: Prune Docker system
+      shell: bash
+      run: |
+        if [[ "${{ inputs.verbose }}" == "true" ]]; then
+          echo "🧼 Cleaning Docker unused state..."
+        fi
+        docker system prune -af || true
+        docker builder prune -af || true
+    - name: Disk space after cleanup
+      shell: bash
+      run: |
+        echo "📊 Disk space after cleanup:"
+        df -h
